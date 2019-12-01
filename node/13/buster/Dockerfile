@@ -1,4 +1,12 @@
-FROM us.gcr.io/taylorific/buildpack-deps:bullseye
+ARG BASE_IMAGE_NAME=buildpack-deps:bullseye
+# hadolint ignore=DL3006
+FROM $BASE_IMAGE_NAME
+
+ARG CREATED
+ARG REVISION
+
+LABEL org.opencontainers.created="$CREATED" \
+      org.opencontainers.revision="$REVISION"
 
 RUN groupadd --gid 1000 node \
   && useradd --uid 1000 --gid node --shell /bin/bash --create-home node

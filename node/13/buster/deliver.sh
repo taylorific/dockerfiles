@@ -1,7 +1,10 @@
 #!/bin/sh
 
+IMAGE_NAME=${IMAGE_NAME:-us.gcr.io/taylorific/node}
+
 echo \
-  'us.gcr.io/taylorific/node:13.1.0-bullseye' \
-  'us.gcr.io/taylorific/node:13.1-bullseye' \
-  'us.gcr.io/taylorific/node:13-bullseye' \
-  'us.gcr.io/taylorific/node:bullseye' | xargs -n 1 docker push
+  "${IMAGE_NAME}:13.1.0-bullseye" \
+  "${IMAGE_NAME}:13.1-bullseye" \
+  "${IMAGE_NAME}:13-bullseye" \
+  "${IMAGE_NAME}:bullseye" \
+  | xargs -n 1 docker image push
