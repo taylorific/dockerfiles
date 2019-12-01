@@ -1,6 +1,6 @@
 #!/bin/sh
 
-BASE_IMAGE_NAME=${BASE_IMAGE_NAME=-us.gcr.io/taylorific/buildpack-deps:buster-scm}
+BASE_IMAGE_NAME=${BASE_IMAGE_NAME:-us.gcr.io/taylorific/buildpack-deps:buster-scm}
 IMAGE_NAME=${IMAGE_NAME:-us.gcr.io/taylorific/buildpack-deps:buster}
 CREATED=$(date -u +"%Y-%m-%dT%H:%M:%SZ")
 REVISION=$(git rev-parse --short HEAD)
