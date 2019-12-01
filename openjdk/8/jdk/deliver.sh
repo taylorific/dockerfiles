@@ -1,4 +1,8 @@
 #!/bin/sh
 
-docker push us.gcr.io/taylorific/openjdk:8-jdk
-docker push us.gcr.io/taylorific/openjdk:8-jdk-stretch
+IMAGE_NAME=${IMAGE_NAME:-us.gcr.io/taylorific/openjdk:8-jdk}
+
+echo \
+  "${IMAGE_NAME}" \
+  "${IMAGE_NAME}-stretch" \
+  | xargs -n 1 docker image push

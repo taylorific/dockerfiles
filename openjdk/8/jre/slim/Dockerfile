@@ -1,4 +1,12 @@
-FROM debian:buster-slim
+ARG BASE_IMAGE_NAME=debian:buster-slim
+# hadolint ignore=DL3006
+FROM $BASE_IMAGE_NAME
+
+ARG CREATED
+ARG REVISION
+
+LABEL org.opencontainers.created="$CREATED" \
+      org.opencontainers.revision="$REVISION"
 
 RUN set -eux; \
 	apt-get update; \
