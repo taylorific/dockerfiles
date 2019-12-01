@@ -1,6 +1,6 @@
 #!/bin/sh
 
-IMAGE_NAME=us.gcr.io/taylorific/python:3.8.0-slim-buster
+IMAGE_NAME=${IMAGE_NAME:-us.gcr.io/taylorific/python:3.8.0-slim-buster}
 
 echo \
   "${IMAGE_NAME}" \

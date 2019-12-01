@@ -1,7 +1,7 @@
 #!/bin/sh
 
-BASE_IMAGE_NAME=us.gcr.io/taylorific/buildpack-deps:buster
-IMAGE_NAME=us.gcr.io/taylorific/python:3.8.0-slim-buster
+BASE_IMAGE_NAME=${BASE_IMAGE_NAME:-us.gcr.io/taylorific/buildpack-deps:buster}
+IMAGE_NAME=${IMAGE_NAME:-us.gcr.io/taylorific/python:3.8.0-slim-buster}
 CREATED=$(date -u +"%Y-%m-%dT%H:%M:%SZ")
 REVISION=$(git rev-parse --short HEAD)
 
