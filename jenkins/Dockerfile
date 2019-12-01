@@ -1,4 +1,12 @@
-FROM us.gcr.io/taylorific/openjdk:8-jdk-stretch
+ARG BASE_IMAGE_NAME=openjdk:8-jdk-stretch
+# hadolint ignore=DL3006
+FROM $BASE_IMAGE_NAME
+
+ARG CREATED
+ARG REVISION
+
+LABEL org.opencontainers.created="$CREATED" \
+      org.opencontainers.revision="$REVISION"
 
 RUN apt-get update && apt-get upgrade -y && apt-get install -y git curl && rm -rf /var/lib/apt/lists/*
 
