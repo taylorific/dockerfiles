@@ -1,4 +1,12 @@
+ARG BASE_IMAGE_NAME=alpine:3.10
+# hadolint ignore=DL3006
 FROM alpine:3.10
+
+ARG CREATED
+ARG REVISION
+
+LABEL org.opencontainers.created="$CREATED" \
+      org.opencontainers.revision="$REVISION"
 
 # ensure local python is preferred over distribution python
 ENV PATH /usr/local/bin:$PATH

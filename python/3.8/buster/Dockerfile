@@ -1,4 +1,12 @@
-FROM us.gcr.io/taylorific/buildpack-deps:buster
+ARG BASE_IMAGE_NAME=buildpack-deps:buster
+# hadolint ignore=DL3006
+FROM $BASE_IMAGE_NAME
+
+ARG CREATED
+ARG REVISION
+
+LABEL org.opencontainers.created="$CREATED" \
+      org.opencontainers.revision="$REVISION" 
 
 # ensure local python is preferred over distribution python
 ENV PATH /usr/local/bin:$PATH
