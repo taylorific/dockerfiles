@@ -1,4 +1,12 @@
-FROM us.gcr.io/taylorific/buildpack-deps:buster-scm
+ARG BASE_IMAGE_NAME=buildpack-deps:buster-scm
+# hadolint ignore=DL3006
+FROM $BASE_IMAGE_NAME
+
+ARG CREATED
+ARG REVISION
+
+LABEL org.opencontainers.created="$CREATED" \
+      org.opencontainers.revision="$REVISION" 
 
 RUN set -ex; \
 	apt-get update; \

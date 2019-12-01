@@ -1,4 +1,12 @@
-FROM debian:buster
+ARG BASE_IMAGE_NAME=debian:buster
+# hadolint ignore=DL3006
+FROM $BASE_IMAGE_NAME
+
+ARG CREATED
+ARG REVISION
+
+LABEL org.opencontainers.created="$CREATED" \
+      org.opencontainers.revision="$REVISION" 
 
 RUN apt-get update && apt-get install -y --no-install-recommends \
 		ca-certificates \
