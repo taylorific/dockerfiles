@@ -1,4 +1,7 @@
 #!/bin/sh
 
+IMAGE_NAME=${IMAGE_NAME:-us.gcr.io/taylorific/elm:0.19.1}
+
 echo \
-  'us.gcr.io/taylorific/elm:0.19.1' | xargs -n 1 docker push
+  "${IMAGE_NAME}" \
+  | xargs -n 1 docker image push

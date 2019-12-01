@@ -1,4 +1,12 @@
-FROM alpine:3.10
+ARG BASE_IMAGE_NAME=alpine:3.10
+# hadolint ignore=DL3006
+FROM $BASE_IMAGE_NAME
+
+ARG CREATED
+ARG REVISION
+
+LABEL org.opencontainers.created="$CREATED" \
+      org.opencontainers.revision="$REVISION"
 
 # branch
 ARG branch=master
