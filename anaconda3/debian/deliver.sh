@@ -1,6 +1,6 @@
 #!/bin/sh
 
-IMAGE_NAME=us.gcr.io/taylorific/anaconda3:2019.10
+IMAGE_NAME=docker.r.winry.it/anaconda3:2019.10
 
 echo \
   "${IMAGE_NAME}" \

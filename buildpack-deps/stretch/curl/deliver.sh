@@ -1,6 +1,6 @@
 #!/bin/sh
 
-IMAGE_NAME=${IMAGE_NAME:-us.gcr.io/taylorific/buildpack-deps:stretch-curl}
+IMAGE_NAME=${IMAGE_NAME:-docker.r.winry.it/buildpack-deps:stretch-curl}
 
 echo \
   "${IMAGE_NAME}" \

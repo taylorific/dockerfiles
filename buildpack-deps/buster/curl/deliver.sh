@@ -1,6 +1,6 @@
 #!/bin/sh
 
-IMAGE_NAME=${IMAGE_NAME:-us.gcr.io/taylorific/buildpack-deps:buster-curl}
+IMAGE_NAME=${IMAGE_NAME:-docker.r.winry.it/buildpack-deps:buster-curl}
 
 echo \
   "${IMAGE_NAME}" \

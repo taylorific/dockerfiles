@@ -1,6 +1,4 @@
-ARG BASE_IMAGE_NAME=debian:buster
-# hadolint ignore=DL3006
-FROM $BASE_IMAGE_NAME
+FROM docker.r.winry.it/debian:buster
 
 ARG CREATED
 ARG REVISION

@@ -1,8 +1,6 @@
 #!/bin/sh
 
-IMAGE_NAME=${IMAGE_NAME:-us.gcr.io/taylorific/ruby}
-CREATED=$(date -u +"%Y-%m-%dT%H:%M:%SZ")
-REVISION=$(git rev-parse --short HEAD)
+IMAGE_NAME=${IMAGE_NAME:-docker.r.winry.it/ruby}
 
 echo \
   "${IMAGE_NAME}" \

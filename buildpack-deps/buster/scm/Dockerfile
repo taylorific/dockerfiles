@@ -1,6 +1,4 @@
-ARG BASE_IMAGE_NAME=buildpack-deps:buster-curl
-# hadolint ignore=DL3006
-FROM $BASE_IMAGE_NAME
+FROM docker.r.winry.it/buildpack-deps:buster-curl
 
 ARG CREATED
 ARG REVISION

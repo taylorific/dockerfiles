@@ -1,6 +1,4 @@
-ARG BASE_IMAGE_NAME=debian:bullseye
-# hadolint ignore=DL3006
-FROM $BASE_IMAGE_NAME
+FROM docker.r.winry.it/debian:bullseye
 
 ARG CREATED
 ARG REVISION

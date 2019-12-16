@@ -1,6 +1,4 @@
-ARG BASE_IMAGE_NAME=alpine:3.10
-# hadolint ignore=DL3006
-FROM alpine:3.10
+FROM docker.r.winry.it/alpine:3.10
 
 ARG CREATED
 ARG REVISION

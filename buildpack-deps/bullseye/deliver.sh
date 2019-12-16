@@ -1,6 +1,6 @@
 #!/bin/sh
 
-IMAGE_NAME=${IMAGE_NAME:-us.gcr.io/taylorific/buildpack-deps:bullseye}
+IMAGE_NAME=${IMAGE_NAME:-docker.r.winry.it/buildpack-deps:bullseye}
 
 echo \
   "${IMAGE_NAME}" \

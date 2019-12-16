@@ -1,6 +1,4 @@
-ARG BASE_IMAGE_NAME=buildpack-deps:stretch-scm
-# hadolint ignore=DL3006
-FROM $BASE_IMAGE_NAME
+FROM docker.r.winry.it/buildpack-deps:stretch-scm
 
 ARG CREATED
 ARG REVISION

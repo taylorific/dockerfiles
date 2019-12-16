@@ -1,6 +1,4 @@
-ARG BASE_IMAGE_NAME=buildpack-deps:buster-scm
-# hadolint ignore=DL3006
-FROM $BASE_IMAGE_NAME
+FROM docker.r.winry.it/buildpack-deps:buster-scm
 
 ARG CREATED
 ARG REVISION

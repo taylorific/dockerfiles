@@ -1,6 +1,6 @@
 #!/bin/sh
 
-IMAGE_NAME=${IMAGE_NAME:-us.gcr.io/taylorific/node}
+IMAGE_NAME=${IMAGE_NAME:-docker.r.winry.it/node}
 
 echo \
   "${IMAGE_NAME}:13.1.0-bullseye" \

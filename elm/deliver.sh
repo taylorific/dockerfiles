@@ -1,6 +1,6 @@
 #!/bin/sh
 
-IMAGE_NAME=${IMAGE_NAME:-us.gcr.io/taylorific/elm:0.19.1}
+IMAGE_NAME=${IMAGE_NAME:-docker.r.winry.it/elm:0.19.1}
 
 echo \
   "${IMAGE_NAME}" \

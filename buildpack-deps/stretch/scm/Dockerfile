@@ -1,7 +1,4 @@
-ARG BASE_IMAGE_NAME=us.gcr.io/taylorific/buildpack-deps:stretch-curl
-# hadolint ignore=DL3006
-FROM $BASE_IMAGE_NAME
-# FROM us.gcr.io/taylorific/buildpack-deps:stretch-curl
+FROM docker.r.winry.it/buildpack-deps:stretch-curl
 
 ARG CREATED
 ARG REVISION
