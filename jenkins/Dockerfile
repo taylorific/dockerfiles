@@ -1,6 +1,4 @@
-ARG BASE_IMAGE_NAME=openjdk:8-jdk-stretch
-# hadolint ignore=DL3006
-FROM $BASE_IMAGE_NAME
+FROM docker.r.winry.it/openjdk:8-jdk-stretch
 
 ARG CREATED
 ARG REVISION
@@ -52,10 +50,12 @@ RUN curl -fsSL https://github.com/krallin/tini/releases/download/${TINI_VERSION}
 
 # jenkins version being bundled in this docker image
 ARG JENKINS_VERSION
-ENV JENKINS_VERSION ${JENKINS_VERSION:-2.176.2}
+# ENV JENKINS_VERSION ${JENKINS_VERSION:-2.176.2}
+ENV JENKINS_VERSION ${JENKINS_VERSION:-2.204.1}
 
 # jenkins.war checksum, download will be validated using it
-ARG JENKINS_SHA=33a6c3161cf8de9c8729fd83914d781319fd1569acf487c7b1121681dba190a5
+# ARG JENKINS_SHA=33a6c3161cf8de9c8729fd83914d781319fd1569acf487c7b1121681dba190a5
+ARG JENKINS_SHA=12b9ebbf9eb1cd1deab0d11512511bcd80a5d3a754dffab54dd6385d788d5284
 
 # Can be used to customize where jenkins.war get downloaded from
 ARG JENKINS_URL=https://repo.jenkins-ci.org/public/org/jenkins-ci/main/jenkins-war/${JENKINS_VERSION}/jenkins-war-${JENKINS_VERSION}.war
