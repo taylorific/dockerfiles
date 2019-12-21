@@ -6,6 +6,7 @@ ARG REVISION
 LABEL org.opencontainers.created="$CREATED" \
       org.opencontainers.revision="$REVISION" 
 
+# hadolint ignore=DL3008,SC2046,DL4006
 RUN set -ex; \
 	apt-get update; \
 	apt-get install -y --no-install-recommends \
