@@ -1,6 +1,4 @@
-ARG BASE_IMAGE_NAME=buildpack-deps:stretch-curl
-# hadolint ignore=DL3006
-FROM $BASE_IMAGE_NAME
+FROM docker.r.winry.it/buildpack-deps:stretch-curl
 
 ARG CREATED
 ARG REVISION
@@ -40,6 +38,8 @@ ENV JAVA_BASE_URL https://github.com/AdoptOpenJDK/openjdk11-upstream-binaries/re
 ENV JAVA_URL_VERSION 11.0.5_10
 # https://github.com/docker-library/openjdk/issues/320#issuecomment-494050246
 
+COPY openjdk.gpg .
+COPY andrew_haley.gpg .
 RUN set -eux; \
 	\
 	dpkgArch="$(dpkg --print-architecture)"; \
@@ -55,10 +55,14 @@ RUN set -eux; \
 	export GNUPGHOME="$(mktemp -d)"; \
 # TODO find a good link for users to verify this key is right (https://mail.openjdk.java.net/pipermail/jdk-updates-dev/2019-April/000951.html is one of the only mentions of it I can find); perhaps a note added to https://adoptopenjdk.net/upstream.html would make sense?
 # no-self-sigs-only: https://salsa.debian.org/debian/gnupg2/commit/c93ca04a53569916308b369c8b218dad5ae8fe07
-	gpg --batch --keyserver ha.pool.sks-keyservers.net --keyserver-options no-self-sigs-only --recv-keys CA5F11C6CE22644D42C6AC4492EF8D39DC13168F; \
+	# gpg --batch --keyserver ha.pool.sks-keyservers.net --keyserver-options no-self-sigs-only --recv-keys CA5F11C6CE22644D42C6AC4492EF8D39DC13168F; \
+	gpg --no-tty --import openjdk.gpg; \
+        rm openjdk.gpg; \
 # also verify that key was signed by Andrew Haley (the OpenJDK 8 and 11 Updates OpenJDK project lead)
 # (https://github.com/docker-library/openjdk/pull/322#discussion_r286839190)
-	gpg --batch --keyserver ha.pool.sks-keyservers.net --recv-keys EAC843EBD3EFDB98CC772FADA5CD6035332FA671; \
+	# gpg --batch --keyserver ha.pool.sks-keyservers.net --recv-keys EAC843EBD3EFDB98CC772FADA5CD6035332FA671; \
+	gpg --no-tty --import andrew_haley.gpg; \
+        rm andrew_haley.gpg; \
 	gpg --batch --list-sigs --keyid-format 0xLONG CA5F11C6CE22644D42C6AC4492EF8D39DC13168F \
 		| tee /dev/stderr \
 		| grep '0xA5CD6035332FA671' \
