@@ -1,5 +1,4 @@
-ARG BASE_IMAGE_NAME=debian:bullseye-slim
-FROM $BASE_IMAGE_NAME
+FROM debian:bullseye-slim
 LABEL maintainer="Mischa Taylor <sheska@linux.com>"
 
 ARG CREATED
