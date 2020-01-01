@@ -7,7 +7,7 @@ MAKEFLAGS += --no-builtin-rules
 
 DOCKER_LOCAL ?= docker.r.winry.it
 IMAGE_NAME := $(DOCKER_LOCAL)/openjdk
-TAGS := 8u232-slim-buster 8u232-slim 8u232-jdk-slim-buster 8u232-jdk-slim
+TAGS := 8u232-slim-buster 8u232-slim 8u232-jdk-slim-buster 8u232-jdk-slim 8-jdk-slim-buster 8-jdk-slim
 
 .PHONY: build
 build: Dockerfile
