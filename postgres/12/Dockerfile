@@ -1,4 +1,4 @@
-FROM docker.r.winry.it/debian:stretch-slim
+FROM docker.r.winry.it/debian:buster-slim
 
 ARG CREATED
 ARG REVISION
@@ -84,15 +84,14 @@ RUN set -ex; \
 # uid                  PostgreSQL Debian Repository
 	key='B97B0AFCAA1A47F044F244A07FCC7D46ACCC4CF8'; \
 	export GNUPGHOME="$(mktemp -d)"; \
-	# gpg --batch --keyserver ha.pool.sks-keyservers.net --recv-keys "$key"; \
-	gpg --batch --keyserver hkp://p80.pool.sks-keyservers.net:80 --recv-keys "$key"; \
+	gpg --batch --keyserver ha.pool.sks-keyservers.net --recv-keys "$key"; \
 	gpg --batch --export "$key" > /etc/apt/trusted.gpg.d/postgres.gpg; \
 	command -v gpgconf > /dev/null && gpgconf --kill all; \
 	rm -rf "$GNUPGHOME"; \
 	apt-key list
 
-ENV PG_MAJOR 9.6
-ENV PG_VERSION 9.6.17-2.pgdg90+1
+ENV PG_MAJOR 12
+ENV PG_VERSION 12.2-2.pgdg100+1
 
 RUN set -ex; \
 	\
@@ -103,20 +102,20 @@ RUN set -ex; \
 	case "$dpkgArch" in \
 		amd64 | i386 | ppc64el) \
 # arches officialy built by upstream
-			echo "deb http://apt.postgresql.org/pub/repos/apt/ stretch-pgdg main $PG_MAJOR" > /etc/apt/sources.list.d/pgdg.list; \
+			echo "deb http://apt.postgresql.org/pub/repos/apt/ buster-pgdg main $PG_MAJOR" > /etc/apt/sources.list.d/pgdg.list; \
 			apt-get update; \
 			;; \
 		*) \
 # we're on an architecture upstream doesn't officially build for
 # let's build binaries from their published source packages
-			echo "deb-src http://apt.postgresql.org/pub/repos/apt/ stretch-pgdg main $PG_MAJOR" > /etc/apt/sources.list.d/pgdg.list; \
+			echo "deb-src http://apt.postgresql.org/pub/repos/apt/ buster-pgdg main $PG_MAJOR" > /etc/apt/sources.list.d/pgdg.list; \
 			\
 			case "$PG_MAJOR" in \
 				9.* | 10 ) ;; \
 				*) \
 # https://github.com/docker-library/postgres/issues/484 (clang-6.0 required, only available in stretch-backports)
 # TODO remove this once we hit buster+
-					echo 'deb http://deb.debian.org/debian stretch-backports main' >> /etc/apt/sources.list.d/pgdg.list; \
+					echo 'deb http://deb.debian.org/debian buster-backports main' >> /etc/apt/sources.list.d/pgdg.list; \
 					;; \
 			esac; \
 			\
@@ -160,7 +159,6 @@ RUN set -ex; \
 	sed -ri 's/#(create_main_cluster) .*$/\1 = false/' /etc/postgresql-common/createcluster.conf; \
 	apt-get install -y --no-install-recommends \
 		"postgresql-$PG_MAJOR=$PG_VERSION" \
-		"postgresql-contrib-$PG_MAJOR=$PG_VERSION" \
 	; \
 	\
 	rm -rf /var/lib/apt/lists/*; \
