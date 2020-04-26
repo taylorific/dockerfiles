@@ -1,4 +1,4 @@
-FROM docker.r.winry.it/alpine:3.10
+FROM docker.r.winry.it/alpine:3.11
 
 ARG CREATED
 ARG REVISION
