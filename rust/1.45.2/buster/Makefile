@@ -6,12 +6,12 @@ MAKEFLAGS += --warn-undefined-variables
 MAKEFLAGS += --no-builtin-rules
 
 DOCKER_LOCAL ?= docker.r.winry.it
-IMAGE_NAME := $(DOCKER_LOCAL)/buildpack-deps
-TAGS := buster-curl
+IMAGE_NAME := $(DOCKER_LOCAL)/rust
+TAGS := buster 1.45.2-buster 1.45.2 1.45-buster 1.45 1-buster 1  latest
 
 .PHONY: build
 build: Dockerfile
-	../../../docker-build.sh $(IMAGE_NAME) $(TAGS)
+	DOCKER_BUILDKIT=1 ../../../docker-build.sh $(IMAGE_NAME) $(TAGS)
 
 .PHONY: verify
 verify:
@@ -20,3 +20,4 @@ verify:
 .PHONY: deliver
 deliver:
 	../../../docker-deliver.sh $(IMAGE_NAME) $(TAGS)
+
