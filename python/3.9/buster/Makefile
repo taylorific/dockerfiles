@@ -1,13 +1,6 @@
-SHELL := bash
-.ONESHELL:
-.SHELLFLAGS := -eu -o pipefail -c
-.DELETE_ON_ERROR:
-MAKEFLAGS += --warn-undefined-variables
-MAKEFLAGS += --no-builtin-rules
-
 DOCKER_LOCAL ?= docker.r.winry.it
 IMAGE_NAME := $(DOCKER_LOCAL)/python
-TAGS := 2.7.18-alpine3.10 2.7-alpine3.10 2-alpine3.10
+TAGS := 3.9.0-buster 3.9-buster 3-buster buster
 
 .PHONY: build
 build: Dockerfile
