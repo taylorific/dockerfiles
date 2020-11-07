@@ -27,7 +27,7 @@ build() {
   REVISION=$(git rev-parse --short HEAD)
 
   echo "==> Building docker image ${IMAGE_NAME} with tags [$*] "
-  docker image build \
+  DOCKER_BUILDKIT=1 docker image build \
     --build-arg CREATED="${CREATED}" \
     --build-arg REVISION="${REVISION}" \
     ${TAG_PARAMS} \
