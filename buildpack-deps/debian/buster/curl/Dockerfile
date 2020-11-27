@@ -6,7 +6,6 @@ ARG REVISION
 LABEL org.opencontainers.created="$CREATED" \
       org.opencontainers.revision="$REVISION" 
 
-# hadolint ignore=DL3008
 RUN apt-get update && apt-get install -y --no-install-recommends \
 		ca-certificates \
 		curl \
@@ -14,7 +13,6 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 		wget \
 	&& rm -rf /var/lib/apt/lists/*
 
-# hadolint ignore=DL3008
 RUN set -ex; \
 	if ! command -v gpg > /dev/null; then \
 		apt-get update; \
