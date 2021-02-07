@@ -41,19 +41,19 @@ check_binfmt_misc_file_system_mounted() {
   fi
 }
 
-checK_binfmt_support() {
-  # binfmt-support
-  if ! command -v update-binfmts >/dev/null 2>&1; then
-    error "Can't find update-binfmts." \
-	 "Install with 'sudo apt-get install binfmt-support'."
-  fi
-  binfmt_version="$(update-binfmts --version | awk '{print $NF}')"
-  if [[ "$(version "$binfmt_version")" < "$(version '2.1.7')" ]]; then
-    error "update-binfmts $binfmt_version too old. Need >= 2.1.7"
-  else
-    ok "update-binfmts $binfmt_version has fix-binary (F) support."
-  fi
-}
+# check_binfmt_support() {
+#   # binfmt-support
+#   if ! command -v update-binfmts >/dev/null 2>&1; then
+#     error "Can't find update-binfmts." \
+#	 "Install with 'sudo apt-get install binfmt-support'."
+#  fi
+#   binfmt_version="$(update-binfmts --version | awk '{print $NF}')"
+#   if [[ "$(version "$binfmt_version")" < "$(version '2.1.7')" ]]; then
+#     error "update-binfmts $binfmt_version too old. Need >= 2.1.7"
+#   else
+#     ok "update-binfmts $binfmt_version has fix-binary (F) support."
+#   fi
+# }
 
 check_docker_buildx() {
   # Docker >= 19.03
@@ -91,7 +91,7 @@ main() {
   check_buildx_multi_arch
   check_linux_kernel
   check_binfmt_misc_file_system_mounted
-  checK_binfmt_support
+  # checK_binfmt_support
   check_qemu_registered_in_binfmt_misc
 }
 
