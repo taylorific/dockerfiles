@@ -1,10 +1,6 @@
-DOCKER_LOCAL ?= docker.r.winry.it
+DOCKER_LOCAL ?= taylorific
 IMAGE_NAME := $(DOCKER_LOCAL)/buildpack-deps
 TAGS := buster-curl stable-curl curl
-
-.PHONY: build
-build: Dockerfile
-	../../../../docker-build.sh $(IMAGE_NAME) $(TAGS)
 
 .PHONY: verify
 verify:
@@ -12,4 +8,4 @@ verify:
 
 .PHONY: deliver
 deliver:
-	../../../../docker-deliver.sh $(IMAGE_NAME) $(TAGS)
+	../../../../docker-deliver-multi-arch.sh $(IMAGE_NAME) $(TAGS)

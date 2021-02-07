@@ -1,4 +1,4 @@
-FROM docker.r.winry.it/buildpack-deps:focal-scm
+FROM taylorific/buildpack-deps:focal-scm
 
 ARG CREATED
 ARG REVISION
@@ -8,8 +8,6 @@ LABEL org.opencontainers.created="$CREATED" \
 
 RUN set -ex; \
 	apt-get update; \
-# make sure debconf doesn't try to prompt (e.g. tzdata on Ubuntu)
-	DEBIAN_FRONTEND=noninteractive \
 	apt-get install -y --no-install-recommends \
 		autoconf \
 		automake \

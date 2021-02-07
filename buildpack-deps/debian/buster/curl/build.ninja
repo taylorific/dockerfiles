@@ -1,0 +1,5 @@
+DOCKER_LOCAL = taylorific
+IMAGE_NAME = ${DOCKER_LOCAL}/buildpack-deps
+TAGS = buster-curl stable-curl curl
+
+build deliver: phony ../../../../docker-deliver-multi-arch.sh ${IMAGE_NAME} ${TAGS}

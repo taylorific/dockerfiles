@@ -1,10 +1,10 @@
-DOCKER_LOCAL ?= docker.r.winry.it
+DOCKER_LOCAL ?= taylorific
 IMAGE_NAME = $(DOCKER_LOCAL)/buildpack-deps
 TAGS = focal-scm 20.04-scm
 
 .PHONY: build
 build: Dockerfile
-	../../../../docker-build.sh $(IMAGE_NAME) $(TAGS)
+	../../../../docker-buildx-multi-arch.sh $(IMAGE_NAME) $(TAGS)
 
 .PHONY: verify
 verify:

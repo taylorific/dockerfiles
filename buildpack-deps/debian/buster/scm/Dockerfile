@@ -1,4 +1,4 @@
-FROM docker.r.winry.it/buildpack-deps:buster-curl
+FROM taylorific/buildpack-deps:buster-curl
 
 ARG CREATED
 ARG REVISION

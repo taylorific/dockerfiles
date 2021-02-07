@@ -1,4 +1,4 @@
-FROM docker.r.winry.it/ubuntu:focal
+FROM ubuntu:focal
 
 ARG CREATED
 ARG REVISION
@@ -6,12 +6,17 @@ ARG REVISION
 LABEL org.opencontainers.created="$CREATED" \
       org.opencontainers.revision="$REVISION" 
 
-RUN apt-get update && apt-get install -y --no-install-recommends \
+RUN set -eux; \
+	apt-get update; \
+	apt-get install -y --no-install-recommends \
 		ca-certificates \
 		curl \
 		netbase \
 		wget \
-	&& rm -rf /var/lib/apt/lists/*
+# https://bugs.debian.org/929417
+		tzdata \
+	; \
+	rm -rf /var/lib/apt/lists/*
 
 RUN set -ex; \
 	if ! command -v gpg > /dev/null; then \

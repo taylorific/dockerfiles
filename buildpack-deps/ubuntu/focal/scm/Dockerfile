@@ -1,4 +1,4 @@
-FROM docker.r.winry.it/buildpack-deps:focal-curl
+FROM taylorific/buildpack-deps:focal-curl
 
 ARG CREATED
 ARG REVISION

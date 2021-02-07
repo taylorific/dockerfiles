@@ -1,4 +1,4 @@
-FROM docker.r.winry.it/buildpack-deps:buster-scm
+FROM taylorific/buildpack-deps:buster-scm
 
 ARG CREATED
 ARG REVISION
