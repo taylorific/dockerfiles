@@ -1,10 +1,6 @@
-DOCKER_LOCAL ?= docker.r.winry.it
+DOCKER_LOCAL ?= taylorific
 IMAGE_NAME := $(DOCKER_LOCAL)/python
-TAGS := 3.9.0-slim-buster 3.9-slim-buster 3-slim-buster slim-buster 3.9.0-slim 3.9-slim 3-slim slim
-
-.PHONY: build
-build: Dockerfile
-	../../../../docker-build.sh $(IMAGE_NAME) $(TAGS)
+TAGS := 3.9.1-slim-buster 3.9-slim-buster 3-slim-buster slim-buster 3.9.1-slim 3.9-slim 3-slim slim
 
 .PHONY: verify
 verify:
@@ -12,5 +8,5 @@ verify:
 
 .PHONY: deliver
 deliver:
-	../../../../docker-deliver.sh $(IMAGE_NAME) $(TAGS)
+	../../../../docker-deliver-multi-arch.sh $(IMAGE_NAME) $(TAGS)
 
