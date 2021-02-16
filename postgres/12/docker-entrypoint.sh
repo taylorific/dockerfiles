@@ -37,7 +37,8 @@ docker_create_db_directories() {
 	local user; user="$(id -u)"
 
 	mkdir -p "$PGDATA"
-	chmod 700 "$PGDATA"
+	# ignore failure since there are cases where we can't chmod (and PostgreSQL might fail later anyhow - it's picky about permissions of this directory)
+	chmod 700 "$PGDATA" || :
 
 	# ignore failure since it will be fine when using the image provided directory; see also https://github.com/docker-library/postgres/pull/289
 	mkdir -p /var/run/postgresql || :
@@ -96,10 +97,14 @@ docker_verify_minimum_env() {
 	# messes it up
 	if [ "${#POSTGRES_PASSWORD}" -ge 100 ]; then
 		cat >&2 <<-'EOWARN'
+
 			WARNING: The supplied POSTGRES_PASSWORD is 100+ characters.
+
 			  This will not work if used via PGPASSWORD with "psql".
+
 			  https://www.postgresql.org/message-id/flat/E1Rqxp2-0004Qt-PL%40wrigleys.postgresql.org (BUG #6412)
 			  https://github.com/docker-library/postgres/issues/507
+
 		EOWARN
 	fi
 	if [ -z "$POSTGRES_PASSWORD" ] && [ 'trust' != "$POSTGRES_HOST_AUTH_METHOD" ]; then
@@ -108,8 +113,10 @@ docker_verify_minimum_env() {
 			Error: Database is uninitialized and superuser password is not specified.
 			       You must specify POSTGRES_PASSWORD to a non-empty value for the
 			       superuser. For example, "-e POSTGRES_PASSWORD=password" on "docker run".
+
 			       You may also use "POSTGRES_HOST_AUTH_METHOD=trust" to allow all
 			       connections without a password. This is *not* recommended.
+
 			       See PostgreSQL documentation about "trust":
 			       https://www.postgresql.org/docs/current/auth-trust.html
 		EOE
@@ -125,6 +132,7 @@ docker_verify_minimum_env() {
 			         https://www.postgresql.org/docs/current/auth-trust.html
 			         In Docker's default configuration, this is effectively any other
 			         container on the same system.
+
 			         It is not recommended to use POSTGRES_HOST_AUTH_METHOD=trust. Replace
 			         it with "-e POSTGRES_PASSWORD=password" instead to set a password in
 			         "docker run".
@@ -137,7 +145,7 @@ docker_verify_minimum_env() {
 #    ie: docker_process_init_files /always-initdb.d/*
 # process initializer files, based on file extensions and permissions
 docker_process_init_files() {
-	# psql here for backwards compatiblilty "${psql[@]}"
+	# psql here for backwards compatibility "${psql[@]}"
 	psql=( docker_process_sql )
 
 	echo
@@ -175,13 +183,19 @@ docker_process_sql() {
 		query_runner+=( --dbname "$POSTGRES_DB" )
 	fi
 
-	"${query_runner[@]}" "$@"
+	PGHOST= PGHOSTADDR= "${query_runner[@]}" "$@"
 }
 
 # create initial database
 # uses environment variables for input: POSTGRES_DB
 docker_setup_db() {
-	if [ "$POSTGRES_DB" != 'postgres' ]; then
+	local dbAlreadyExists
+	dbAlreadyExists="$(
+		POSTGRES_DB= docker_process_sql --dbname postgres --set db="$POSTGRES_DB" --tuples-only <<-'EOSQL'
+			SELECT 1 FROM pg_database WHERE datname = :'db' ;
+		EOSQL
+	)"
+	if [ -z "$dbAlreadyExists" ]; then
 		POSTGRES_DB= docker_process_sql --dbname postgres --set db="$POSTGRES_DB" <<-'EOSQL'
 			CREATE DATABASE :"db" ;
 		EOSQL

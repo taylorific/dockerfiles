@@ -1,4 +1,4 @@
-FROM debian:stretch-slim
+FROM debian:buster-slim
 
 ARG CREATED
 ARG REVISION
@@ -39,11 +39,9 @@ RUN set -eux; \
 	wget -O /usr/local/bin/gosu "https://github.com/tianon/gosu/releases/download/$GOSU_VERSION/gosu-$dpkgArch"; \
 	wget -O /usr/local/bin/gosu.asc "https://github.com/tianon/gosu/releases/download/$GOSU_VERSION/gosu-$dpkgArch.asc"; \
 	export GNUPGHOME="$(mktemp -d)"; \
-        mkdir ~/.gnupg; \
-	echo "disable-ipv6" >> ~/.gnupg/dirmngr.conf; \
 	# gpg --batch --keyserver hkps://keys.openpgp.org --recv-keys B42F6819007F00F88E364FD4036A9C25BF357DD4; \
 	gpg --no-tty --import B42F6819007F00F88E364FD4036A9C25BF357DD4.asc; \
-	rm B42F6819007F00F88E364FD4036A9C25BF357DD4.asc; \
+        rm B42F6819007F00F88E364FD4036A9C25BF357DD4.asc; \
 	gpg --batch --verify /usr/local/bin/gosu.asc /usr/local/bin/gosu; \
 	gpgconf --kill all; \
 	rm -rf "$GNUPGHOME" /usr/local/bin/gosu.asc; \
@@ -92,8 +90,8 @@ RUN set -ex; \
 	rm -rf "$GNUPGHOME"; \
 	apt-key list
 
-ENV PG_MAJOR 9.6
-ENV PG_VERSION 9.6.21-1.pgdg90+1
+ENV PG_MAJOR 13
+ENV PG_VERSION 13.2-1.pgdg100+1
 
 RUN set -ex; \
 	\
@@ -102,22 +100,22 @@ RUN set -ex; \
 	\
 	dpkgArch="$(dpkg --print-architecture)"; \
 	case "$dpkgArch" in \
-		amd64 | i386 | ppc64el) \
+		amd64 | arm64 | i386 | ppc64el) \
 # arches officialy built by upstream
-			echo "deb http://apt.postgresql.org/pub/repos/apt/ stretch-pgdg main $PG_MAJOR" > /etc/apt/sources.list.d/pgdg.list; \
+			echo "deb http://apt.postgresql.org/pub/repos/apt/ buster-pgdg main $PG_MAJOR" > /etc/apt/sources.list.d/pgdg.list; \
 			apt-get update; \
 			;; \
 		*) \
 # we're on an architecture upstream doesn't officially build for
 # let's build binaries from their published source packages
-			echo "deb-src http://apt.postgresql.org/pub/repos/apt/ stretch-pgdg main $PG_MAJOR" > /etc/apt/sources.list.d/pgdg.list; \
+			echo "deb-src http://apt.postgresql.org/pub/repos/apt/ buster-pgdg main $PG_MAJOR" > /etc/apt/sources.list.d/pgdg.list; \
 			\
 			case "$PG_MAJOR" in \
 				9.* | 10 ) ;; \
 				*) \
 # https://github.com/docker-library/postgres/issues/484 (clang-6.0 required, only available in stretch-backports)
 # TODO remove this once we hit buster+
-					echo 'deb http://deb.debian.org/debian stretch-backports main' >> /etc/apt/sources.list.d/pgdg.list; \
+					echo 'deb http://deb.debian.org/debian buster-backports main' >> /etc/apt/sources.list.d/pgdg.list; \
 					;; \
 			esac; \
 			\
@@ -128,6 +126,8 @@ RUN set -ex; \
 			\
 # build .deb files from upstream's source packages (which are verified by apt-get)
 			apt-get update; \
+# we need DEBIAN_FRONTEND on postgresql-13 for slapd ("Please enter the password for the admin entry in your LDAP directory."); see https://bugs.debian.org/929417
+			DEBIAN_FRONTEND=noninteractive \
 			apt-get build-dep -y \
 				postgresql-common pgdg-keyring \
 				"postgresql-$PG_MAJOR=$PG_VERSION" \
@@ -161,7 +161,6 @@ RUN set -ex; \
 	sed -ri 's/#(create_main_cluster) .*$/\1 = false/' /etc/postgresql-common/createcluster.conf; \
 	apt-get install -y --no-install-recommends \
 		"postgresql-$PG_MAJOR=$PG_VERSION" \
-		"postgresql-contrib-$PG_MAJOR=$PG_VERSION" \
 	; \
 	\
 	rm -rf /var/lib/apt/lists/*; \
@@ -227,4 +226,3 @@ STOPSIGNAL SIGINT
 
 EXPOSE 5432
 CMD ["postgres"]
-
