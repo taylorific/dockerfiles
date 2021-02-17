@@ -1,6 +1,6 @@
 DOCKER_LOCAL ?= taylorific
 IMAGE_NAME := $(DOCKER_LOCAL)/mongo
-TAGS := 3.6.22-xenial 3.6-xenial 3-xenial
+TAGS := 4.4.4-bionic 4.4-bionic 4-bionic bionic
 
 .PHONY: verify
 verify:
